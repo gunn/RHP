@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+# require File.expand_path('../../lib/rhp', __FILE__)
+require 'rhp'
+require 'optparse'
+
+usage = <<USAGE
+Usage: rhp <options> <dir>
+
+Run rhp from the directory specified. If no directory is specified, the
+current one is assumed.
+
+Options
+  -p, --port          The port to run RHP from. Default: 2718
+  -c, --config=<path> A custom config.ru file.
+USAGE
+
+options = {
+  :port => 2718,
+  :config => File.expand_path("../../lib/rhp/config.ru", __FILE__)
+}
+
+ARGV.options do |o|
+  # list all available template engines
+  o.on("-p", "--port") do |port|
+    options[:port] = port
+  end
+  
+  o.on("-c", "--config") do |config|
+    options[:config] = File.expand_path(config, Dir.pwd)
+  end
+
+  o.on_tail("-h", "--help") { puts usage; exit }
+
+  o.parse!
+end
+
+project_path = ARGV.first || '.'
+RHP::Server.project_root = File.expand_path(project_path, Dir.pwd)
+
+
+server = Rack::Server.new.tap do |s|
+  s.options[:config]  = options[:config]
+  s.options[:Port]    = options[:port]
+end
+
+
+puts "RHP started at http://0.0.0.0:#{options[:port]}/ from #{project_path}\n"
+server.start
