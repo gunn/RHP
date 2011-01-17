@@ -4,14 +4,12 @@ require 'rhp'
 require 'optparse'
 
 usage = <<USAGE
-Usage: rhp <options> <dir>
+Usage: rhp <options>
 
-Run rhp from the directory specified. If no directory is specified, the
-current one is assumed.
+To use rhp, cd to your sites base public directory, and run.
 
 Options
   -p, --port          The port to run RHP from. Default: 2718
-  -c, --config=<path> A custom config.ru file.
 USAGE
 
 options = {
@@ -20,14 +18,13 @@ options = {
 }
 
 ARGV.options do |o|
-  # list all available template engines
   o.on("-p", "--port") do |port|
     options[:port] = port
   end
   
-  o.on("-c", "--config") do |config|
-    options[:config] = File.expand_path(config, Dir.pwd)
-  end
+  # o.on("-c", "--config") do |config|
+  #   options[:config] = File.expand_path(config, Dir.pwd)
+  # end
 
   o.on_tail("-h", "--help") { puts usage; exit }
 

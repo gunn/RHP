@@ -1,0 +1,23 @@
+= RHP: Hypertext Preprocessor.
+
+== Usage
+First install the RHP gem:
+  $: sudo gem i rhp
+
+Next, pick or create a directory with some files to serve:
+  $: mkdir site
+  $: cd site
+  $: echo '%h1 hello from HAML' > index.html.haml
+
+Now start the server:
+  $: rhp
+
+That's it!
+
+
+== More info
+
+RHP is probably buggy and definitely a security risk. It should not be used by anyone under any circumstances. Luckily ruby has no shortage of solid, innovative and well-thought-out web frameworks for you to pick from.
+
+
+Development by Arthur Gunn.
